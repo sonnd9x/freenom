@@ -17,7 +17,7 @@ return [
          * 账户加授权码的方式登录，谷歌邮箱使用账户加密码的方式登录，请知悉。
          */
         'to' => env('TO'), // 用于接收通知的邮箱
-        'toName' => '主人', // 收件人名字
+        'toName' => 'Freenom Owner', // 收件人名字
         'username' => env('MAIL_USERNAME'), // 机器人邮箱账户
         'password' => env('MAIL_PASSWORD'), // 机器人邮箱密码或授权码
         'enable' => env('MAIL_ENABLE'), // 是否启用，默认启用

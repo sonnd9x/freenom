@@ -190,30 +190,30 @@ class FreeNom
                 sleep(1);
 
                 if (stripos($body, 'Order Confirmation') === false) { // 续期失败
-                    $result .= sprintf("%s续期失败\n", $domain);
+                    $result .= sprintf("%sGia hạn không thành công\n", $domain);
                     $notRenewed .= sprintf('<a href="http://%s" rel="noopener" target="_blank">%s</a>', $domain, $domain);
                     $notRenewedTG .= sprintf('[%s](http://%s)  ', $domain, $domain);
                 } else {
-                    $result .= sprintf("%s续期成功\n", $domain);
+                    $result .= sprintf("%sGia hạn thành công\n", $domain);
                     $renewed .= sprintf('<a href="http://%s" rel="noopener" target="_blank">%s</a>', $domain, $domain);
                     $renewedTG .= sprintf('[%s](http://%s)  ', $domain, $domain);
                     continue;
                 }
             }
 
-            $domainInfo .= sprintf('<a href="http://%s" rel="noopener" target="_blank">%s</a>还有<span style="font-weight: bold; font-size: 16px;">%d</span>天到期，', $domain, $domain, $days);
-            $domainInfoTG .= sprintf('[%s](http://%s)还有*%d*天到期，', $domain, $domain, $days);
+            $domainInfo .= sprintf('<a href="http://%s" rel="noopener" target="_blank">%s</a>hết hạn trong <span style="font-weight: bold; font-size: 16px;">%d</span> ngày，', $domain, $domain, $days);
+            $domainInfoTG .= sprintf('[%s](http://%s)hết hạn trong *%d* ngày，', $domain, $domain, $days);
         }
-        $domainInfoTG .= "更多信息可以参考[Freenom官网](https://my.freenom.com/domains.php?a=renewals)哦~\n\n（如果你不想每次执行都收到推送，请将 .env 中 NOTICE_FREQ 的值设为0，使程序只在有续期操作时才推送）";
+        //$domainInfoTG .= "更多信息可以参考[Freenom官网](https://my.freenom.com/domains.php?a=renewals)哦~\n\n（如果你不想每次执行都收到推送，请将 .env 中 NOTICE_FREQ 的值设为0，使程序只在有续期操作时才推送）";
 
         if ($notRenewed || $renewed) {
             Mail::send(
-                '主人，我刚刚帮你续期域名啦~',
+                'Tên miền vừa mới được gia hạn',
                 [
                     $this->username,
-                    $renewed ? sprintf('续期成功：%s<br>', $renewed) : '',
-                    $notRenewed ? sprintf('续期出错：%s<br>', $notRenewed) : '',
-                    $domainInfo ?: '哦豁，没看到其它域名。'
+                    $renewed ? sprintf('Gia hạn thành công：%s<br>', $renewed) : '',
+                    $notRenewed ? sprintf('Lỗi gia hạn：%s<br>', $notRenewed) : '',
+                    $domainInfo ?: 'Không tìm thấy tên miền nào.'
                 ]
             );
             TelegramBot::send(sprintf(
@@ -226,7 +226,7 @@ class FreeNom
         } else {
             if (config('noticeFreq') == 1) {
                 Mail::send(
-                    '报告，今天没有域名需要续期',
+                    'Hôm nay không có tên miền nào cần gia hạn',
                     [
                         $this->username,
                         $domainInfo

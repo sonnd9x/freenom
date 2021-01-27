@@ -66,8 +66,8 @@ class Mail
             self::$mail->SMTPSecure = $secure; // 将加密系统设置为使用 - ssl（不建议使用）或tls
             self::$mail->Port = $port; // 设置SMTP端口号 - tsl使用587端口，ssl使用465端口
             self::$mail->CharSet = 'UTF-8'; // 防止中文邮件乱码
-            self::$mail->setLanguage('zh_cn', VENDOR_PATH . '/phpmailer/phpmailer/language/'); // 设置语言
-            self::$mail->setFrom($username, 'im robot'); // 发件人
+            self::$mail->setLanguage('vi', VENDOR_PATH . '/phpmailer/phpmailer/language/'); // 设置语言
+            self::$mail->setFrom($username, 'Freenom BOT'); // 发件人
         }
 
         return self::$mail;
@@ -98,7 +98,7 @@ class Mail
         }
 
         self::mail()->addAddress($to, config('mail.toName', '主人')); // 添加收件人，参数2选填
-        self::mail()->addReplyTo(config('mail.replyTo', 'mybsdc@qq.com'), config('mail.replyToName', '作者')); // 备用回复地址，收到的回复的邮件将被发到此地址
+        //self::mail()->addReplyTo(config('mail.replyTo', 'mybsdc@qq.com'), config('mail.replyToName', '作者')); // 备用回复地址，收到的回复的邮件将被发到此地址
 
         /**
          * 抄送和密送都是添加收件人，抄送方式下，被抄送者知道除被密送者外的所有的收件人，密送方式下，
